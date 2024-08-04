@@ -1,7 +1,7 @@
 version: '3.7'
 services:
   gerocuidado-forum-api-prod:
-    image: gerocuidadodev/gerocuidado-forum-api:latest
+    image: victorjorge/gerocuidado-forum-api:latest
     container_name: gerocuidado-forum-api-prod
     environment:
       - DB_HOST=gerocuidado-forum-db
