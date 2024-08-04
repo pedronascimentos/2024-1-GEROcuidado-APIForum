@@ -4,10 +4,9 @@ on:
     branches:
       - main
       - develop
-      - sonar/teste
-      - release-sonar
+      - master
   pull_request:
-     types: [opened, synchronize, reopened]
+     types: [opened, synchronize, reopened, closed]
 jobs:
   test-unit:
     name: Test Unit & Scan
@@ -21,7 +20,7 @@ jobs:
       - name: Test Unit
         id: test-unit
         run: |
-          docker-compose -f docker-compose.test.yml up -V --force-recreate --build --abort-on-container-exit --exit-code-from gerocuidado-forum-api-test
+          docker compose -f docker-compose.test.yml up -V --force-recreate --build --abort-on-container-exit --exit-code-from gerocuidado-forum-api-test
         env:
           TEST: unit
 
@@ -31,14 +30,16 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
 
-      - name: Sincroniza cobertura de testes com o Codecov
-        uses: codecov/codecov-action@v3
-        with:
-          token: ${{ secrets.CODECOV_TOKEN }}
-          fail_ci_if_error: true
-          flags: jest
-          name: 2023-2-GEROcuidado-APIForum
-          verbose: true
+      # TODO: Check if this is really necessary
+      #
+      # - name: Sincroniza cobertura de testes com o Codecov
+      #   uses: codecov/codecov-action@v3
+      #   with:
+      #     token: ${{ secrets.CODECOV_TOKEN }}
+      #     fail_ci_if_error: true
+      #     flags: jest
+      #     name: 2023-2-GEROcuidado-APIForum
+      #     verbose: true
 
   test-e2e:
     name: Test E2E
@@ -52,6 +53,6 @@ jobs:
       - name: Test E2E
         id: test-e2e
         run: |
-          docker-compose -f docker-compose.test.yml up -V --force-recreate --build --abort-on-container-exit --exit-code-from gerocuidado-forum-api-test
+          docker compose -f docker-compose.test.yml up -V --force-recreate --build --abort-on-container-exit --exit-code-from gerocuidado-forum-api-test
         env:
           TEST: e2e
