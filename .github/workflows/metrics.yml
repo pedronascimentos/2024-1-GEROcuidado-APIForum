@@ -1,3 +1,6 @@
+# Aqui buscamos no Sonar um relatório em formato JSON
+# e enviamos para o repositório de DOC.
+
 name: Export de métricas
 
 on:

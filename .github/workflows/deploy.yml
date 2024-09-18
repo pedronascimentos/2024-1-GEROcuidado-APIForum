@@ -1,3 +1,10 @@
+# Aqui realizamos o deploy do microserviço fazendo push da imagem docker atualizada
+# com a versão mais recente do código para o Dockerhub. Depois fazemos o deploy no EC2
+# que nada mais é que um git pull e restartar os containers do micro-serviço
+#
+# Nesse mesmo workflow temos a action de release, que cria uma release no github
+# caso seja feito um push de tag com nome no formato vX.Y.Z
+#
 name: Deploy
 
 on:
