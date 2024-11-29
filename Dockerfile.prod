@@ -8,6 +8,9 @@ RUN npm i -g @nestjs/cli@9.1.2
 
 COPY package*.json ./
 
+# Remover node_modules e package-lock.json para garantir uma instalação limpa
+RUN rm -rf node_modules package-lock.json
+
 RUN npm ci --legacy-peer-deps
 
 COPY . .
@@ -22,6 +25,9 @@ RUN apk update && apk add curl bash make && rm -rf /var/cache/apk/*
 WORKDIR /home/node/app
 
 COPY package*.json ./
+
+# Remover node_modules e package-lock.json para garantir uma instalação limpa
+RUN rm -rf node_modules package-lock.json
 
 RUN npm ci --legacy-peer-deps --omit=dev
 
@@ -42,3 +48,4 @@ USER node
 
 EXPOSE 3002
 ENTRYPOINT ["/app/entrypoint.sh"]
+
