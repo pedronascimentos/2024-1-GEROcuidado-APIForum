@@ -4,15 +4,15 @@ import { TypeOrmModuleOptions, TypeOrmOptionsFactory } from '@nestjs/typeorm';
 
 @Injectable()
 export class DbService implements TypeOrmOptionsFactory {
-  constructor(private configService: ConfigService) {}
+  constructor(private configService: ConfigService) { }
 
   createTypeOrmOptions(): TypeOrmModuleOptions | Promise<TypeOrmModuleOptions> {
-    const host = this.configService.get<string>('DB_HOST') || 'localhost';
-    const username =
-      this.configService.get<string>('DB_USERNAME') || 'username';
-    const password = this.configService.get<string>('DB_PASS') || 'password';
-    const database = this.configService.get<string>('DB_DATABASE') || 'public';
-    const port = this.configService.get<number>('DB_PORT') || 5002;
+    const host = this.configService.get<string>('DB_HOST', 'localhost');
+    const username = this.configService.get<string>('DB_USERNAME', 'postgres');
+    const password = this.configService.get<string>('DB_PASS', 'postgres');
+    const database = this.configService.get<string>('DB_DATABASE', 'gerocuidado-forum-db');
+
+    const port = parseInt(this.configService.get<string>('DB_PORT', '5002'), 10);
 
     return Promise.resolve<TypeOrmModuleOptions>({
       type: 'postgres',
@@ -22,8 +22,8 @@ export class DbService implements TypeOrmOptionsFactory {
       password,
       database,
       autoLoadEntities: true,
-      synchronize: false,
-      logging: false,
+      synchronize: process.env.NODE_ENV === 'development',
+      logging: process.env.NODE_ENV === 'development',
     });
   }
 }
