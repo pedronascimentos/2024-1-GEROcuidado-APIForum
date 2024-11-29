@@ -24,7 +24,7 @@ import { PublicacaoService } from './publicacao.service';
 
 @Controller()
 export class PublicacaoController {
-  constructor(private readonly _service: PublicacaoService) {}
+  constructor(private readonly _service: PublicacaoService) { }
 
   @Get()
   @PublicRoute()

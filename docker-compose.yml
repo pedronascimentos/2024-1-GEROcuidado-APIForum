@@ -14,15 +14,14 @@ services:
     depends_on:
       - gerocuidado-forum-db
     networks:
-      - gerocuidado-forum-net
-      - gerocuidado-apis-net
+      - gerocuidado-apis-net # Rede compartilhada entre as APIs
 
   gerocuidado-forum-db:
     build:
       context: ./.docker/postgres
       dockerfile: Dockerfile
-    command: postgres -c 'config_file=/etc/postgresql/postgresql.conf'
     container_name: gerocuidado-forum-db
+    command: postgres -c 'config_file=/etc/postgresql/postgresql.conf'
     volumes:
       - './db/postgres:/var/lib/postgresql/data'
       - './.docker/postgres/config/postgresql.conf:/etc/postgresql/postgresql.conf'
@@ -33,11 +32,8 @@ services:
     ports:
       - '5002:5002'
     networks:
-      - gerocuidado-forum-net
+      - gerocuidado-apis-net # Rede compartilhada entre as APIs
 
 networks:
-  gerocuidado-forum-net:
-    driver: bridge
   gerocuidado-apis-net:
-    name: gerocuidado-apis-net
-    external: true
+    external: true # Rede compartilhada com outras APIs
