@@ -32,9 +32,14 @@ async function bootstrap() {
     new ModelNotFoundExceptionFilter(),
   );
 
-  app.enableCors();
-
-  await app.listen(3002);
+  app.enableCors({
+    origin: ['http://192.168.0.15', 'http://10.0.2.2', 'http://127.0.0.1', '0.0.0.0'], // Substitua pelos domínios reais usados
+    methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
+    credentials: true,
+  });
+  // Aqui está o ajuste para expor a API na rede
+  await app.listen(3002, '0.0.0.0'); // Mudando para '0.0.0.0'
   console.log(`Application is running on: ${await app.getUrl()}`);
 }
 bootstrap();
+
